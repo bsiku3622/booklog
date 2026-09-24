@@ -1,0 +1,32 @@
+---
+import Booklog from "../components/Booklog";
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#fcfcfc" />
+    <meta name="description" content="읽고 싶은 책을 모으고, 다 읽은 책에는 감상을 남겨보세요." />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="책갈피" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <title>책갈피 — 나만의 책장</title>
+  </head>
+  <body>
+    <Booklog client:only="react" />
+    <script>
+      if (import.meta.env.PROD && "serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          void navigator.serviceWorker.register("/sw.js");
+        }, { once: true });
+      }
+    </script>
+  </body>
+</html>

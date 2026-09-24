@@ -1,5 +1,12 @@
 # Work log
 
+## 2026-09-24 — Remove the duplicate shelf rule
+
+- 변경 파일: `src/components/Booklog.css`
+- 요약: 마지막 책 행의 아래 테두리를 없애고 섹션 끝 구분선만 남겼습니다.
+
+각 책 사이의 선은 목록 구분에 필요하지만, 마지막 책의 바로 아래에는 이미 섹션 `Divider`가 있습니다. 마지막 행에만 테두리를 생략해 선이 두 번 보이지 않게 했습니다.
+
 ## 2026-09-24 — Publish Booklog to its custom domain
 
 - 변경 대상: GitHub `bsiku3622/booklog`, Vercel `zevoers/booklog`, Cloudflare DNS `bsiku.dev`

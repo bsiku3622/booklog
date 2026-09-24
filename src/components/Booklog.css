@@ -154,6 +154,10 @@
   border-bottom: 1px solid var(--pui-color-border-base);
 }
 
+.book-entry:last-child {
+  border-bottom: 0;
+}
+
 .book-cover {
   position: relative;
   display: flex;

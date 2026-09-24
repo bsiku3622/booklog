@@ -1,5 +1,12 @@
 # Work log
 
+## 2026-09-24 — Publish Booklog to its custom domain
+
+- 변경 대상: GitHub `bsiku3622/booklog`, Vercel `zevoers/booklog`, Cloudflare DNS `bsiku.dev`
+- 요약: 공개 GitHub 저장소에 올리고 Vercel production에 연결했으며, `books.bsiku.dev`를 HTTPS로 배포했습니다.
+
+Cloudflare의 `books` CNAME은 Vercel이 이 프로젝트에 제시한 전용 `vercel-dns-017.com` 대상으로 DNS 전용(프록시 꺼짐)으로 추가했습니다. Wrangler OAuth는 DNS 쓰기 권한을 제공하지 않아 레코드는 Cloudflare 대시보드에서 등록했습니다. Vercel Git 연결을 통해 이후 `main` 푸시가 production 배포를 갱신합니다.
+
 ## 2026-09-24 — Enable PWA installation and offline shell
 
 - 변경 파일: `astro.config.mjs`, `src/pages/index.astro`, `public/`

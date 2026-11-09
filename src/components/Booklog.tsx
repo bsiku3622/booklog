@@ -1,18 +1,20 @@
 import { useEffect, useMemo, useState, type SyntheticEvent } from "react";
 import {
-  Box,
+  Badge,
   Button,
   Divider,
   Field,
   Icon,
   Inline,
+  Label,
   PaperProvider,
+  SegmentControl,
   Stack,
-  Textarea,
+  Surface,
   Text,
+  Textarea,
 } from "@studio-baeks/paper-ui";
 
-import "@studio-baeks/paper-ui/styles.css";
 import "./Booklog.css";
 
 type Status = "want" | "reading" | "finished";
@@ -122,42 +124,42 @@ function BooklogApp() {
   };
 
   return (
-    <Box className="booklog-shell" surface="canvas" minHeight="100dvh">
-      <Box as="header" className="booklog-header" surface="raised">
-        <Inline className="header-inner" align="center" justify="between">
-          <Inline className="brand" align="center" gap="sm">
+    <Surface as={Stack} fill="canvas" minHeight="viewport">
+      <Surface as="header" fill="raised" border="bottom">
+        <Inline className="page" maxWidth="measure.xl" paddingX="lg" paddingY="md" align="center" justify="between">
+          <Inline align="center" gap="sm">
             <img src="/favicon.svg" alt="" width="22" height="22" />
             <Text as="p" variant="subheading">책갈피</Text>
           </Inline>
-          <Text as="span" variant="caption" ink="soft">나만의 책장</Text>
+          <Text as="span" variant="caption" ink="secondary">나만의 책장</Text>
         </Inline>
-      </Box>
+      </Surface>
 
-      <Stack as="main" className="booklog-main" gap="xl">
-        <Stack className="intro" gap="sm">
+      <Stack as="main" className="page" maxWidth="measure.xl" paddingX="lg" paddingY="3xl" gap="2xl">
+        <Stack gap="sm" maxWidth="measure.md">
           <Text as="h1" variant="title">책과 함께한 시간을 모아요</Text>
-          <Text as="p" variant="body" ink="soft">읽고 싶은 책을 적어두고, 다 읽은 뒤에는 나만의 감상을 남겨보세요.</Text>
+          <Text as="p" variant="body" ink="secondary">읽고 싶은 책을 적어두고, 다 읽은 뒤에는 나만의 감상을 남겨보세요.</Text>
         </Stack>
 
-        <Box as="section" aria-label="책장">
-          <Inline className="shelf-tools" align="center" justify="between" gap="md">
-            <nav className="shelf-tabs" aria-label="책 상태">
+        <Stack as="section" aria-label="책장" gap="lg">
+          <Inline align="center" justify="between" gap="md" wrap>
+            <SegmentControl aria-label="책 상태" size="sm" value={tab} onValueChange={(value) => { setTab(value as Status); setEditingReview(null); }}>
               {tabs.map((item) => (
-                <Button key={item.id} size="sm" variant="ghost" className={`shelf-tab${tab === item.id ? " is-active" : ""}`} onClick={() => { setTab(item.id); setEditingReview(null); }} aria-current={tab === item.id ? "page" : undefined}>
-                  {item.label}<span className="tab-count">{counts[item.id]}</span>
-                </Button>
+                <SegmentControl.Item key={item.id} value={item.id}>
+                  {item.label} <Badge size="sm" variant="soft">{counts[item.id]}</Badge>
+                </SegmentControl.Item>
               ))}
-            </nav>
-            <Button size="sm" variant="outline" onClick={() => setAdding((value) => !value)}>
+            </SegmentControl>
+            <Button size="sm" variant="hairline" onClick={() => setAdding((value) => !value)}>
               {adding ? "닫기" : "책 추가"}
             </Button>
           </Inline>
 
           {adding ? (
-            <Box as="form" className="add-book-form" onSubmit={addBook}>
-              <Stack gap="sm">
+            <Surface as="form" fill="raised" border radius="md" padding="lg" onSubmit={addBook}>
+              <Stack gap="md">
                 <Text as="h2" variant="subheading">책장에 책 추가</Text>
-                <Inline className="form-fields" gap="sm">
+                <Inline className="form-fields" gap="sm" wrap>
                   <Field autoFocus value={title} onChange={(event) => setTitle(event.currentTarget.value)} placeholder="책 제목" aria-label="책 제목" />
                   <Field value={author} onChange={(event) => setAuthor(event.currentTarget.value)} placeholder="작가" aria-label="작가" />
                 </Inline>
@@ -166,71 +168,71 @@ function BooklogApp() {
                   <Button type="submit" disabled={!title.trim()}>책장에 담기</Button>
                 </Inline>
               </Stack>
-            </Box>
+            </Surface>
           ) : null}
 
-          <Box className="shelf-heading">
+          <Stack gap="xs">
             <Text as="h2" variant="heading">{sectionCopy[tab].title}</Text>
-            <Text as="p" variant="caption" ink="soft">{sectionCopy[tab].description}</Text>
-          </Box>
+            <Text as="p" variant="caption" ink="secondary">{sectionCopy[tab].description}</Text>
+          </Stack>
 
           {visibleBooks.length ? (
-            <ul className="book-list">
+            <Stack as="ul" className="book-list">
               {visibleBooks.map((book) => (
-                <li className="book-entry" key={book.id}>
+                <Surface as="li" border="bottom" paddingY="lg" className="book-entry" key={book.id}>
                   <div className={`book-cover cover-${book.cover % 5}`} aria-label={`『${book.title}』 표지`}>
                     <span className="cover-author">{book.author}</span>
                     <span className="cover-title">{book.title}</span>
                     <span className="cover-mark" aria-hidden="true">책갈피</span>
                   </div>
-                  <div className="book-copy">
-                    <Text as="h3" variant="subheading">{book.title}</Text>
-                    <Text as="p" variant="caption" ink="soft">{book.author}</Text>
-                    {tab === "finished" && book.finishedOn ? <Text as="p" variant="caption" ink="faint">{book.finishedOn} 완독</Text> : null}
+                  <Stack gap="xs" minWidth={0}>
+                    <Text as="h3" variant="subheading" truncate>{book.title}</Text>
+                    <Text as="p" variant="caption" ink="secondary">{book.author}</Text>
+                    {tab === "finished" && book.finishedOn ? <Text as="p" variant="caption" ink="tertiary">{book.finishedOn} 완독</Text> : null}
                     {tab === "finished" && book.review && editingReview !== book.id ? (
-                      <div className="review-snippet">
-                        <Text as="p" variant="body">{book.review}</Text>
-                        <Text as="span" variant="caption" ink="soft">{"★".repeat(book.rating)}{"☆".repeat(5 - book.rating)}</Text>
-                      </div>
+                      <Inline className="review-snippet" gap="sm" align="baseline">
+                        <Text as="p" variant="caption" ink="secondary" className="review-text">{book.review}</Text>
+                        <Text as="span" variant="caption" ink="warning">{"★".repeat(book.rating)}{"☆".repeat(5 - book.rating)}</Text>
+                      </Inline>
                     ) : null}
                     {editingReview === book.id ? (
-                      <div className="review-editor">
-                        <label className="review-label" htmlFor={`review-${book.id}`}>읽고 난 뒤 남기고 싶은 말</label>
+                      <Stack gap="sm" paddingY="sm">
+                        <Label htmlFor={`review-${book.id}`}>읽고 난 뒤 남기고 싶은 말</Label>
                         <Textarea id={`review-${book.id}`} rows={3} value={reviewDraft} onChange={(event) => setReviewDraft(event.currentTarget.value)} placeholder="마음에 남은 문장이나 감상을 적어보세요." />
-                        <div className="review-actions">
-                          <div className="rating-picker" aria-label="별점">
-                            {[1, 2, 3, 4, 5].map((rating) => <Button key={rating} type="button" size="sm" variant="ghost" className={rating <= ratingDraft ? "is-selected" : ""} onClick={() => setRatingDraft(rating)} aria-label={`${rating}점`}>★</Button>)}
-                          </div>
+                        <Inline justify="between" align="center" gap="sm" wrap>
+                          <Inline role="group" aria-label="별점">
+                            {[1, 2, 3, 4, 5].map((rating) => <Button key={rating} type="button" size="sm" variant="ghost" accent={rating <= ratingDraft ? "warning" : "primary"} onClick={() => setRatingDraft(rating)} aria-label={`${rating}점`}>{rating <= ratingDraft ? "★" : "☆"}</Button>)}
+                          </Inline>
                           <Inline gap="xs">
                             <Button size="sm" variant="ghost" onClick={() => setEditingReview(null)}>취소</Button>
                             <Button size="sm" onClick={() => saveReview(book.id)}>감상 저장</Button>
                           </Inline>
-                        </div>
-                      </div>
+                        </Inline>
+                      </Stack>
                     ) : null}
-                  </div>
-                  <div className="book-actions">
+                  </Stack>
+                  <Stack className="book-actions" align="end" gap="xs">
                     {tab === "want" ? <Button size="sm" variant="ghost" onClick={() => moveBook(book, "reading")}>읽기 시작</Button> : null}
-                    {tab === "reading" ? <Button size="sm" variant="outline" onClick={() => moveBook(book, "finished")}>다 읽었어요</Button> : null}
+                    {tab === "reading" ? <Button size="sm" variant="hairline" onClick={() => moveBook(book, "finished")}>다 읽었어요</Button> : null}
                     {tab === "finished" && editingReview !== book.id ? <Button size="sm" variant="ghost" onClick={() => startReview(book)}>{book.review ? "감상 편집" : "독후감 쓰기"}</Button> : null}
-                    {tab === "finished" ? <Button className="remove-book" size="sm" variant="ghostMuted" accent="error" type="button" aria-label={`${book.title} 책장에서 삭제`} onClick={() => setBooks((previous) => previous.filter((item) => item.id !== book.id))}>삭제</Button> : null}
-                  </div>
-                </li>
+                    {tab === "finished" ? <Button size="sm" variant="ghost" accent="error" type="button" aria-label={`${book.title} 책장에서 삭제`} onClick={() => setBooks((previous) => previous.filter((item) => item.id !== book.id))}>삭제</Button> : null}
+                  </Stack>
+                </Surface>
               ))}
-            </ul>
+            </Stack>
           ) : (
-            <div className="empty-shelf">
+            <Stack align="center" gap="sm" paddingY="3xl">
               <BookIcon />
-              <Text as="p" variant="body" ink="soft">{tab === "want" ? "담아두고 싶은 책을 찾아보세요." : tab === "reading" ? "읽기 시작한 책이 여기에 보여요." : "완독한 책이 이곳에 모입니다."}</Text>
+              <Text as="p" variant="body" ink="secondary">{tab === "want" ? "담아두고 싶은 책을 찾아보세요." : tab === "reading" ? "읽기 시작한 책이 여기에 보여요." : "완독한 책이 이곳에 모입니다."}</Text>
               {tab === "want" ? <Button size="sm" variant="ghost" onClick={() => setAdding(true)}>책 한 권 담기</Button> : null}
-            </div>
+            </Stack>
           )}
-        </Box>
+        </Stack>
 
         <Divider />
-        <Text as="p" variant="caption" ink="faint" className="storage-note">책장은 이 기기에 저장됩니다.</Text>
+        <Text as="p" variant="caption" ink="tertiary" className="storage-note">책장은 이 기기에 저장됩니다.</Text>
       </Stack>
-    </Box>
+    </Surface>
   );
 }
 

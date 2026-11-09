@@ -4,3 +4,7 @@ dist/
 .vercel/
 .env
 .env.*
+logs.md
+AGENTS.md
+CLAUDE.md
+.DS_Store

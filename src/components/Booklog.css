@@ -3,6 +3,36 @@
   margin-inline: auto;
 }
 
+.shelf-tools {
+  min-height: 2.75rem;
+}
+
+.shelf-tabs {
+  display: flex;
+  min-width: 0;
+  gap: 0;
+  padding-block-end: var(--pui-shape-space-xs);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.shelf-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.shelf-tab {
+  position: relative;
+  flex: none;
+}
+
+.shelf-tab[aria-selected="true"]::after {
+  position: absolute;
+  inset: auto var(--pui-shape-space-sm) calc(-1 * var(--pui-shape-space-xs));
+  height: 2px;
+  background: var(--pui-color-ink-primary);
+  content: "";
+}
+
 .form-fields > * {
   flex: 1 1 12rem;
   min-width: 0;

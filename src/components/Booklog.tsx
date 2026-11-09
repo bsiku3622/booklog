@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState, type SyntheticEvent } from "react";
 import {
-  Badge,
   Button,
   Divider,
   Field,
@@ -8,7 +7,7 @@ import {
   Inline,
   Label,
   PaperProvider,
-  SegmentControl,
+  SelectableGroup,
   Stack,
   Surface,
   Text,
@@ -142,18 +141,39 @@ function BooklogApp() {
         </Stack>
 
         <Stack as="section" aria-label="책장" gap="lg">
-          <Inline align="center" justify="between" gap="md" wrap>
-            <SegmentControl aria-label="책 상태" size="sm" value={tab} onValueChange={(value) => { setTab(value as Status); setEditingReview(null); }}>
+          <Surface as={Inline} className="shelf-tools" border="bottom" align="center" justify="between" gap="md">
+            <SelectableGroup
+              className="shelf-tabs"
+              role="tablist"
+              aria-label="책 상태"
+              selectionRequired
+              selectedValues={[tab]}
+              currentValue={tab}
+              onSelectedValuesChange={([value]) => { if (value) { setTab(value as Status); setEditingReview(null); } }}
+            >
               {tabs.map((item) => (
-                <SegmentControl.Item key={item.id} value={item.id}>
-                  {item.label} <Badge size="sm" variant="soft">{counts[item.id]}</Badge>
-                </SegmentControl.Item>
+                <Button
+                  as={SelectableGroup.Item}
+                  key={item.id}
+                  id={`shelf-tab-${item.id}`}
+                  value={item.id}
+                  role="tab"
+                  aria-controls="shelf-panel"
+                  className="shelf-tab"
+                  size="sm"
+                  variant="ghost"
+                  shape="rounded"
+                  selected={tab === item.id}
+                >
+                  {item.label}
+                  <Text as="span" variant="caption" ink="tertiary">{counts[item.id]}</Text>
+                </Button>
               ))}
-            </SegmentControl>
-            <Button size="sm" variant="hairline" onClick={() => setAdding((value) => !value)}>
+            </SelectableGroup>
+            <Button size="sm" variant="hairline" shape="rounded" onClick={() => setAdding((value) => !value)}>
               {adding ? "닫기" : "책 추가"}
             </Button>
-          </Inline>
+          </Surface>
 
           {adding ? (
             <Surface as="form" fill="raised" border radius="md" padding="lg" onSubmit={addBook}>
@@ -171,6 +191,7 @@ function BooklogApp() {
             </Surface>
           ) : null}
 
+          <Stack role="tabpanel" id="shelf-panel" aria-labelledby={`shelf-tab-${tab}`} gap="lg">
           <Stack gap="xs">
             <Text as="h2" variant="heading">{sectionCopy[tab].title}</Text>
             <Text as="p" variant="caption" ink="secondary">{sectionCopy[tab].description}</Text>
@@ -227,6 +248,7 @@ function BooklogApp() {
               {tab === "want" ? <Button size="sm" variant="ghost" onClick={() => setAdding(true)}>책 한 권 담기</Button> : null}
             </Stack>
           )}
+          </Stack>
         </Stack>
 
         <Divider />

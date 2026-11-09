@@ -25,6 +25,14 @@
   flex: none;
 }
 
+.shelf-tab.shelf-tab:not([data-selected]) {
+  color: var(--pui-color-ink-secondary);
+}
+
+.shelf-tab.shelf-tab[data-selected] {
+  background-color: transparent;
+}
+
 .shelf-tab[aria-selected="true"]::after {
   position: absolute;
   inset: auto var(--pui-shape-space-sm) calc(-1 * var(--pui-shape-space-xs));

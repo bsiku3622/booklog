@@ -8,6 +8,7 @@ import {
   Inline,
   PaperProvider,
   Stack,
+  Textarea,
   Text,
 } from "@studio-baeks/paper-ui";
 
@@ -142,9 +143,9 @@ function BooklogApp() {
           <Inline className="shelf-tools" align="center" justify="between" gap="md">
             <nav className="shelf-tabs" aria-label="책 상태">
               {tabs.map((item) => (
-                <button key={item.id} type="button" className={`shelf-tab${tab === item.id ? " is-active" : ""}`} onClick={() => { setTab(item.id); setEditingReview(null); }} aria-current={tab === item.id ? "page" : undefined}>
+                <Button key={item.id} size="sm" variant="ghost" className={`shelf-tab${tab === item.id ? " is-active" : ""}`} onClick={() => { setTab(item.id); setEditingReview(null); }} aria-current={tab === item.id ? "page" : undefined}>
                   {item.label}<span className="tab-count">{counts[item.id]}</span>
-                </button>
+                </Button>
               ))}
             </nav>
             <Button size="sm" variant="outline" onClick={() => setAdding((value) => !value)}>
@@ -195,10 +196,10 @@ function BooklogApp() {
                     {editingReview === book.id ? (
                       <div className="review-editor">
                         <label className="review-label" htmlFor={`review-${book.id}`}>읽고 난 뒤 남기고 싶은 말</label>
-                        <textarea id={`review-${book.id}`} rows={3} value={reviewDraft} onChange={(event) => setReviewDraft(event.currentTarget.value)} placeholder="마음에 남은 문장이나 감상을 적어보세요." />
+                        <Textarea id={`review-${book.id}`} rows={3} value={reviewDraft} onChange={(event) => setReviewDraft(event.currentTarget.value)} placeholder="마음에 남은 문장이나 감상을 적어보세요." />
                         <div className="review-actions">
                           <div className="rating-picker" aria-label="별점">
-                            {[1, 2, 3, 4, 5].map((rating) => <button key={rating} type="button" className={rating <= ratingDraft ? "is-selected" : ""} onClick={() => setRatingDraft(rating)} aria-label={`${rating}점`}>★</button>)}
+                            {[1, 2, 3, 4, 5].map((rating) => <Button key={rating} type="button" size="sm" variant="ghost" className={rating <= ratingDraft ? "is-selected" : ""} onClick={() => setRatingDraft(rating)} aria-label={`${rating}점`}>★</Button>)}
                           </div>
                           <Inline gap="xs">
                             <Button size="sm" variant="ghost" onClick={() => setEditingReview(null)}>취소</Button>
@@ -212,7 +213,7 @@ function BooklogApp() {
                     {tab === "want" ? <Button size="sm" variant="ghost" onClick={() => moveBook(book, "reading")}>읽기 시작</Button> : null}
                     {tab === "reading" ? <Button size="sm" variant="outline" onClick={() => moveBook(book, "finished")}>다 읽었어요</Button> : null}
                     {tab === "finished" && editingReview !== book.id ? <Button size="sm" variant="ghost" onClick={() => startReview(book)}>{book.review ? "감상 편집" : "독후감 쓰기"}</Button> : null}
-                    {tab === "finished" ? <button className="remove-book" type="button" aria-label={`${book.title} 책장에서 삭제`} onClick={() => setBooks((previous) => previous.filter((item) => item.id !== book.id))}>삭제</button> : null}
+                    {tab === "finished" ? <Button className="remove-book" size="sm" variant="ghostMuted" accent="error" type="button" aria-label={`${book.title} 책장에서 삭제`} onClick={() => setBooks((previous) => previous.filter((item) => item.id !== book.id))}>삭제</Button> : null}
                   </div>
                 </li>
               ))}

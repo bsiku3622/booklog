@@ -1,5 +1,5 @@
 .booklog-shell {
-  color: var(--pui-color-content-primary);
+  color: var(--pui-color-ink-primary);
 }
 
 .booklog-header {
@@ -68,7 +68,7 @@
   padding: 0.25rem 0;
   border: 0;
   background: transparent;
-  color: var(--pui-color-content-secondary);
+  color: var(--pui-color-ink-secondary);
   cursor: pointer;
   font-size: 0.875rem;
 }
@@ -84,22 +84,22 @@
 }
 
 .shelf-tab.is-active {
-  color: var(--pui-color-content-primary);
+  color: var(--pui-color-ink-primary);
 }
 
 .shelf-tab.is-active::after {
-  background: var(--pui-color-content-primary);
+  background: var(--pui-color-ink-primary);
 }
 
 .shelf-tab:focus-visible,
 .rating-picker button:focus-visible,
 .remove-book:focus-visible {
-  outline: 2px solid var(--pui-color-content-primary);
+  outline: 2px solid var(--pui-color-ink-primary);
   outline-offset: 2px;
 }
 
 .tab-count {
-  color: var(--pui-color-content-tertiary);
+  color: var(--pui-color-ink-tertiary);
   font-size: 0.75rem;
 }
 
@@ -125,7 +125,7 @@
   padding: 1rem;
   border: 1px solid var(--pui-color-border-base);
   border-radius: var(--pui-shape-radius-interaction);
-  background: var(--pui-color-surface-raised);
+  background: var(--pui-color-bg-raised);
 }
 
 .add-book-form h2 {
@@ -235,7 +235,7 @@
   min-width: 0;
   margin: 0;
   overflow: hidden;
-  color: var(--pui-color-content-secondary);
+  color: var(--pui-color-ink-secondary);
   font-size: 0.8rem;
   line-height: 1.5;
   -webkit-box-orient: vertical;
@@ -259,7 +259,7 @@
   padding: 0.2rem 0.4rem;
   border: 0;
   background: transparent;
-  color: var(--pui-color-content-tertiary);
+  color: var(--pui-color-ink-tertiary);
   cursor: pointer;
   font-size: 0.72rem;
 }
@@ -271,7 +271,7 @@
 }
 
 .review-label {
-  color: var(--pui-color-content-secondary);
+  color: var(--pui-color-ink-secondary);
   font-size: 0.78rem;
 }
 
@@ -282,15 +282,15 @@
   resize: vertical;
   border: 1px solid var(--pui-color-border-base);
   border-radius: var(--pui-shape-radius-interaction);
-  background: var(--pui-color-surface-raised);
-  color: var(--pui-color-content-primary);
+  background: var(--pui-color-bg-raised);
+  color: var(--pui-color-ink-primary);
   font: inherit;
   font-size: 0.875rem;
   line-height: 1.55;
 }
 
 .review-editor textarea:focus-visible {
-  outline: 2px solid var(--pui-color-content-primary);
+  outline: 2px solid var(--pui-color-ink-primary);
   outline-offset: 2px;
 }
 
@@ -310,7 +310,7 @@
   padding: 0.15rem;
   border: 0;
   background: transparent;
-  color: var(--pui-color-content-tertiary);
+  color: var(--pui-color-ink-tertiary);
   cursor: pointer;
   font-size: 1.1rem;
 }
@@ -331,7 +331,7 @@
   width: 1.4rem;
   height: 1.4rem;
   margin-bottom: 0.25rem;
-  color: var(--pui-color-content-tertiary);
+  color: var(--pui-color-ink-tertiary);
 }
 
 .empty-shelf p {

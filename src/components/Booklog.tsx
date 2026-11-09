@@ -7,7 +7,7 @@ import {
   Inline,
   Label,
   PaperProvider,
-  SelectableGroup,
+  SegmentControl,
   Stack,
   Surface,
   Text,
@@ -141,39 +141,26 @@ function BooklogApp() {
         </Stack>
 
         <Stack as="section" aria-label="책장" gap="lg">
-          <Surface as={Inline} className="shelf-tools" border="bottom" align="center" justify="between" gap="md">
-            <SelectableGroup
+          <Inline className="shelf-tools" align="center" justify="between" gap="md">
+            <SegmentControl
+              variant="underline"
               className="shelf-tabs"
-              role="tablist"
+              size="sm"
               aria-label="책 상태"
-              selectionRequired
-              selectedValues={[tab]}
-              currentValue={tab}
-              onSelectedValuesChange={([value]) => { if (value) { setTab(value as Status); setEditingReview(null); } }}
+              value={tab}
+              onValueChange={(value) => { setTab(value as Status); setEditingReview(null); }}
             >
               {tabs.map((item) => (
-                <Button
-                  as={SelectableGroup.Item}
-                  key={item.id}
-                  id={`shelf-tab-${item.id}`}
-                  value={item.id}
-                  role="tab"
-                  aria-controls="shelf-panel"
-                  className="shelf-tab"
-                  size="sm"
-                  variant="ghost"
-                  shape="rounded"
-                  selected={tab === item.id}
-                >
+                <SegmentControl.Item key={item.id} value={item.id}>
                   {item.label}
                   <Text as="span" variant="caption" ink="tertiary">{counts[item.id]}</Text>
-                </Button>
+                </SegmentControl.Item>
               ))}
-            </SelectableGroup>
+            </SegmentControl>
             <Button size="sm" variant="hairline" shape="rounded" onClick={() => setAdding((value) => !value)}>
               {adding ? "닫기" : "책 추가"}
             </Button>
-          </Surface>
+          </Inline>
 
           {adding ? (
             <Surface as="form" fill="raised" border radius="md" padding="lg" onSubmit={addBook}>
@@ -191,7 +178,7 @@ function BooklogApp() {
             </Surface>
           ) : null}
 
-          <Stack role="tabpanel" id="shelf-panel" aria-labelledby={`shelf-tab-${tab}`} gap="lg">
+          <Stack gap="lg">
           <Stack gap="xs">
             <Text as="h2" variant="heading">{sectionCopy[tab].title}</Text>
             <Text as="p" variant="caption" ink="secondary">{sectionCopy[tab].description}</Text>

@@ -8,37 +8,13 @@
 }
 
 .shelf-tabs {
-  display: flex;
   min-width: 0;
-  gap: 0;
-  padding-block-end: var(--pui-shape-space-xs);
   overflow-x: auto;
   scrollbar-width: none;
 }
 
 .shelf-tabs::-webkit-scrollbar {
   display: none;
-}
-
-.shelf-tab {
-  position: relative;
-  flex: none;
-}
-
-.shelf-tab.shelf-tab:not([data-selected]) {
-  color: var(--pui-color-ink-secondary);
-}
-
-.shelf-tab.shelf-tab[data-selected] {
-  background-color: transparent;
-}
-
-.shelf-tab[aria-selected="true"]::after {
-  position: absolute;
-  inset: auto var(--pui-shape-space-sm) calc(-1 * var(--pui-shape-space-xs));
-  height: 2px;
-  background: var(--pui-color-ink-primary);
-  content: "";
 }
 
 .form-fields > * {

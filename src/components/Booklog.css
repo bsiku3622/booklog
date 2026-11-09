@@ -7,16 +7,6 @@
   min-height: 2.75rem;
 }
 
-.shelf-tabs {
-  min-width: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.shelf-tabs::-webkit-scrollbar {
-  display: none;
-}
-
 .form-fields > * {
   flex: 1 1 12rem;
   min-width: 0;
@@ -111,6 +101,19 @@
 }
 
 @media (max-width: 600px) {
+  .shelf-tools {
+    flex-wrap: wrap;
+  }
+
+  .shelf-tools > .shelf-add {
+    order: -1;
+    margin-inline-start: auto;
+  }
+
+  .shelf-tools > .shelf-tabs {
+    flex: 1 1 100%;
+  }
+
   .book-entry {
     grid-template-columns: 3.5rem minmax(0, 1fr) auto;
   }

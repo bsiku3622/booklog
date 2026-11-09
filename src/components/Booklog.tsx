@@ -49,6 +49,7 @@ function BookIcon() {
 
 function BooklogApp() {
   const [books, setBooks] = useState<Book[]>(initialBooks);
+  const [narrow, setNarrow] = useState(false);
   const [tab, setTab] = useState<Status>("want");
   const [adding, setAdding] = useState(false);
   const [title, setTitle] = useState("");
@@ -74,6 +75,14 @@ function BooklogApp() {
   useEffect(() => {
     if (ready) localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
   }, [books, ready]);
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 600px)");
+    const sync = () => setNarrow(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
 
   const visibleBooks = useMemo(() => books.filter((book) => book.status === tab), [books, tab]);
   const counts = useMemo(() => Object.fromEntries(tabs.map(({ id }) => [id, books.filter((book) => book.status === id).length])) as Record<Status, number>, [books]);
@@ -144,6 +153,7 @@ function BooklogApp() {
           <Inline className="shelf-tools" align="center" justify="between" gap="md">
             <SegmentControl
               variant="underline"
+              fullWidth={narrow}
               className="shelf-tabs"
               size="sm"
               aria-label="책 상태"
@@ -157,7 +167,7 @@ function BooklogApp() {
                 </SegmentControl.Item>
               ))}
             </SegmentControl>
-            <Button size="sm" variant="hairline" shape="rounded" onClick={() => setAdding((value) => !value)}>
+            <Button className="shelf-add" size="sm" variant="hairline" shape="rounded" onClick={() => setAdding((value) => !value)}>
               {adding ? "닫기" : "책 추가"}
             </Button>
           </Inline>
